@@ -19,7 +19,7 @@ const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
 
   return (
     <div
-      className={`flex items-center h-[60px] px-5 my-2.5 mb-[50px] rounded-[10px] border-2 ${
+      className={`w-full max-w-md mx-auto flex items-center h-[60px] px-5 my-2.5 mb-[50px] rounded-[10px] border-2 ${
         isFocused ? 'border-blue-200' : 'border-transparent'
       } bg-gray-100`}
     >
