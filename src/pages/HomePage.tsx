@@ -37,7 +37,7 @@ const HomePage = () => {
       <div className="bg-white">
         <BannerIntro/>
         <hr/>
-        <div className="">
+        <div className="rounded-l-2xl">
          <ul>
             {pokemonList.map((pokemon, index) => (
         <li key={index}>{pokemon.name}</li>
