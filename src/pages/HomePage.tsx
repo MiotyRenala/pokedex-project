@@ -1,52 +1,58 @@
 import BannerIntro from "@/components/templates/BannerIntro.tsx";
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {Heart, Swords, Shield, Zap, ArrowLeft} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import type { Pokemon } from "@/types/types";
-
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=08');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setPokemonList(data.results);
-      } catch (e) {
-        setError(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://pokeapi.co/api/v2/pokemon?limit=10"
+      );
+      const results = response.data.results;
+      const detailedData = await Promise.all(
+        results.map(async (pokemon: { url: string }) => {
+          const res = await axios.get(pokemon.url);
+          return {
+            id: res.data.id,
+            name: res.data.name,
+            types: res.data.types.map((t: any) => t.type.name).join(", "),
+            sprites: res.data.sprites.front_default,
+          };
+        })
+      );
+      setPokemonList(detailedData);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données :", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
-
-  if (loading) return <p>Chargement...</p>;
-  if (error) return <p>Erreur : {error.message}</p>;
+  
 
   return (
     <>
       <div className="bg-white">
-        <BannerIntro/>
-        <hr/>
-        <div className="rounded-l-2xl">
-         <ul>
-            {pokemonList.map((pokemon, index) => (
-        <li key={index}>{pokemon.name}</li>
-      ))}
-         </ul>
+        <BannerIntro />
+        <hr />
+        <div className="grid grid-cols-4 gap-2.5 ml-5 ">
+          {pokemonList.map((pokemon) => (
+            <div className="flex-col justify-center items-center  border-2 ">
+              <p>{pokemon.id}</p>
+              <img src={pokemon.sprites} alt="" />
+              <div>
+                <strong>{pokemon.name}</strong>
+                <p>{pokemon.types}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default HomePage;
