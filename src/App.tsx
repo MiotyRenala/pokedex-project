@@ -11,5 +11,5 @@ export default function App() {
         <Route path="/pokemon/:id" element={<PokemonPage />} />
       </Routes>
     </>
-  );
+  )
 }
