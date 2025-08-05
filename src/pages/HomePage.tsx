@@ -1,8 +1,8 @@
 import BannerIntro from "@/components/templates/BannerIntro.tsx";
 import axios from "axios";
-import type {Pokemon} from "@/types/types";
+import type { Pokemon } from "@/types/types";
 import Pagination from "@/components/templates/Pagination.tsx";
-import {PokemonCard} from "@/components/ui/PokemonCard.tsx";
+import { PokemonCard } from "@/components/ui/PokemonCard.tsx";
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -76,34 +76,16 @@ const HomePage = () => {
     fetchData(5);
   }, []);
 
-  let filteredPokemon = pokemonList.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchValue.toLowerCase())
-  );
-  
-  if (sortFilter === "A-Z") {
-    filteredPokemon.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortFilter === "Z-A") {
-    filteredPokemon.sort((a, b) => b.name.localeCompare(a.name));
-  } else {
-    filteredPokemon.sort((a, b) => a.id - b.id);
-  }
-  
   return (
     <>
       <div className="bg-white flex flex-col items-center">
         <BannerIntro />
-
-        <div className="flex flex-row justify-center gap-2 w-[50vw] h-[20vh]">
-          <InputSearch value={searchValue} onChange={setSearchValue} />
-          <FilterDropdown value={sortFilter} onChange={setSortFilter} />
-        </div>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2.5">
           {pokemonList.map((pokemon, index) => (
             <PokemonCard pokemon={pokemon} key={index} />
           ))}
         </div>
-        
-        <Pagination/>
+        <Pagination />
       </div>
     </>
   );
