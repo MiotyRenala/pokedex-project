@@ -1,7 +1,9 @@
 import BannerIntro from "@/components/templates/BannerIntro.tsx";
-import React, { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import axios from "axios";
-import type { Pokemon } from "@/types/types";
+import type {Pokemon} from "@/types/types";
+import Pagination from "@/components/templates/Pagination.tsx";
+import {PokemonCard} from "@/components/ui/PokemonCard.tsx";
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -27,9 +29,11 @@ const HomePage = () => {
     fairy: "#D685AD",
   };
 
-  const fetchData = async () => {
+  const fetchData = async (page: number) => {
+    const limit = 20;
+    const offset = (page - 1) * limit;
     try {
-      const response = await axios.get("https://pokeapi.co/api/v2/pokemon/");
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
       const results = response.data.results;
       const detailedData = await Promise.all(
         results.map(async (pokemon: { url: string }) => {
@@ -48,65 +52,19 @@ const HomePage = () => {
     }
   };
   useEffect(() => {
-    fetchData();
+    fetchData(5);
   }, []);
 
   return (
     <>
       <div className="bg-white flex flex-col items-center">
-        <BannerIntro />
-        <hr />
-        <div className="grid grid-cols-4 gap-2.5 ">
-          {pokemonList.map((pokemon) => (
-            <a href={`http://localhost:5173/pokemon/${pokemon.id}`}>
-              <div
-                className="flex-col justify-center w-50 rounded-xl"
-                style={{ backgroundColor: typeColor[pokemon.types[0]] }}
-              >
-                <div className="flex flex-col items-center p-3  ">
-                  {pokemon.id < 10 && (
-                    <p className="text-xs self-end bg-black bg-opacity-20 px-2 rounded-2xl">
-                      #00{pokemon.id}
-                    </p>
-                  )}
-                  {pokemon.id > 9 && (
-                    <p className="text-xs self-end bg-black bg-opacity-20 px-2 rounded-2xl">
-                      #0{pokemon.id}
-                    </p>
-                  )}
-                  {pokemon.id > 99 && (
-                    <p className="text-xs self-end bg-black bg-opacity-20 px-2 rounded-2xl">
-                      #{pokemon.id}
-                    </p>
-                  )}
-                  <img src={pokemon.sprites} alt="" className="w-30" />
-                  <div className="flex flex-col items-center ">
-                    <strong>{pokemon.name}</strong>
-                    <div className="flex gap-1">
-                      <p
-                        className="p-1 px-2 text-white font-bold shadow-lg shadow-black-500/100 border-1  rounded-2xl text-xs"
-                        style={{ backgroundColor: typeColor[pokemon.types[0]] }}
-                      >
-                        {pokemon.types[0]}
-                      </p>
-                      {pokemon.types[1] && (
-                        <p
-                          className="p-1 px-2 text-white font-bold shadow-lg shadow-black-500/100 border-1  rounded-2xl text-xs"
-                          style={{
-                            backgroundColor: typeColor[pokemon.types[1]],
-                          }}
-                        >
-                          {" "}
-                          {pokemon.types[1]}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
+        <BannerIntro/>
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2.5">
+          {pokemonList.map((pokemon, index) => (
+            <PokemonCard pokemon={pokemon} key={index} />
           ))}
         </div>
+        <Pagination/>
       </div>
     </>
   );
