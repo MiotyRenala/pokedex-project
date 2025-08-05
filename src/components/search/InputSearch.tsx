@@ -1,9 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import { FiFilter } from 'react-icons/fi';
+
 
 interface InputSearchProps {
   value: string;
   onChange(value: string): void;
+  onToggleSort(): void;
+  sortDirection: 'asc' | 'desc'; 
 }
 
 const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
@@ -36,6 +40,12 @@ const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
         onBlur={handleInputBlur}
         className="flex-1 text-center text-[18px] text-gray-500 bg-transparent border-none outline-none placeholder:text-center placeholder:text-gray-400 sm:text-[16px]"
       />
+      <button onClick={onToggleSort} title="Trier" className="ml-2 text-gray-500 hover:text-blue-500">
+      <FiFilter className="w-5 h-5" />
+      <span className="sr-only">
+          {sortDirection === 'asc' ? 'Trier de A à Z' : 'Trier de Z à A'}
+        </span>
+      </button>
     </div>
   );
 };
