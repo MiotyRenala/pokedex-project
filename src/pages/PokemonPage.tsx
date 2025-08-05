@@ -62,6 +62,9 @@ const PokemonPage = () => {
     };
   });
 
+  console.log(pokemon)
+  console.log(species)
+
   return (
     <div className={`min-h-screen w-full bg-${species.color.name}-600 text-white`}>
       <div className="max-w-6xl mx-auto p-8">

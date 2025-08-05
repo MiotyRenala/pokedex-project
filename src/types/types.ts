@@ -1,7 +1,8 @@
 import type {LucideIcon} from "lucide-react";
 
 export type Badge = {
-  title: string
+  title: string;
+  size?: string
 }
 
 export interface WheightType {
