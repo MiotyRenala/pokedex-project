@@ -1,5 +1,4 @@
 import BannerIntro from "@/components/templates/BannerIntro.tsx";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import type { Pokemon } from "@/types/types";
 import Pagination from "@/components/templates/Pagination.tsx";
@@ -7,6 +6,29 @@ import { PokemonCard } from "@/components/ui/PokemonCard.tsx";
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [sortFilter, setSortFilter] = useState("");
+  
+  const typeColor: { [key: string]: string } = {
+    normal: "#A8A77A",
+    fire: "#EE8130",
+    water: "#6390F0",
+    electric: "#F7D02C",
+    grass: "#7AC74C",
+    ice: "#96D9D6",
+    fighting: "#C22E28",
+    poison: "#A33EA1",
+    ground: "#E2BF65",
+    flying: "#A98FF3",
+    psychic: "#F95587",
+    bug: "#A6B91A",
+    rock: "#B6A136",
+    ghost: "#735797",
+    dragon: "#6F35FC",
+    dark: "#705746",
+    steel: "#B7B7CE",
+    fairy: "#D685AD",
+  };
 
   const typeColor: { [key: string]: string } = {
     normal: "#A8A77A",
@@ -33,9 +55,6 @@ const HomePage = () => {
     const limit = 20;
     const offset = (page - 1) * limit;
     try {
-      const response = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
-      );
       const results = response.data.results;
       const detailedData = await Promise.all(
         results.map(async (pokemon: { url: string }) => {
