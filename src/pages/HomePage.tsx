@@ -35,7 +35,7 @@ const HomePage = () => {
         results.map(async (pokemon: { url: string }) => {
           const res = await axios.get(pokemon.url);
           return {
-            id:'#' + res.data.id,
+            id: res.data.id,
             name: res.data.name[0].toUpperCase() + res.data.name.slice(1),
             types: res.data.types.map((t: string[]) => t.type.name),
             sprites: res.data.sprites.front_default,
@@ -64,7 +64,13 @@ const HomePage = () => {
               style={{ backgroundColor: typeColor[pokemon.types[0]] }}
             >
               <div className="flex flex-col items-center p-3  ">
-                <p className="text-xs self-end bg-black bg-opacity-20 px-2 rounded-2xl">{pokemon.id}</p>
+                {pokemon.id<10 && (
+                  <p className="text-xs self-end bg-black bg-opacity-20 px-2 rounded-2xl">#00{pokemon.id}</p>
+
+                )}
+                {pokemon.id>9 && (
+                  <p className="text-xs self-end bg-black bg-opacity-20 px-2 rounded-2xl">#0{pokemon.id}</p>
+                )}
                 <img src={pokemon.sprites} alt="" />
                 <div className="flex flex-col items-center ">
                   <strong>{pokemon.name}</strong>
