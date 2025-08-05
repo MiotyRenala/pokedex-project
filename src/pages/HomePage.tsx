@@ -1,9 +1,9 @@
 import BannerIntro from "@/components/templates/BannerIntro.tsx";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import type {Pokemon} from "@/types/types";
+import type { Pokemon } from "@/types/types";
 import Pagination from "@/components/templates/Pagination.tsx";
-import {PokemonCard} from "@/components/ui/PokemonCard.tsx";
+import { PokemonCard } from "@/components/ui/PokemonCard.tsx";
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -33,7 +33,9 @@ const HomePage = () => {
     const limit = 20;
     const offset = (page - 1) * limit;
     try {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
+      const response = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+      );
       const results = response.data.results;
       const detailedData = await Promise.all(
         results.map(async (pokemon: { url: string }) => {
@@ -58,13 +60,13 @@ const HomePage = () => {
   return (
     <>
       <div className="bg-white flex flex-col items-center">
-        <BannerIntro/>
+        <BannerIntro />
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2.5">
           {pokemonList.map((pokemon, index) => (
             <PokemonCard pokemon={pokemon} key={index} />
           ))}
         </div>
-        <Pagination/>
+        <Pagination />
       </div>
     </>
   );
