@@ -1,22 +1,10 @@
 import BannerIntro from "@/components/templates/BannerIntro.tsx";
-<<<<<<< HEAD
 import { useState, useEffect } from "react";
-=======
->>>>>>> 41ce1ff90106ab4cb63ab59d58c6ec4bdce6560d
 import axios from "axios";
 import type { Pokemon } from "@/types/types";
 import Pagination from "@/components/templates/Pagination.tsx";
 import { PokemonCard } from "@/components/ui/PokemonCard.tsx";
-<<<<<<< HEAD
 import { useSearchParams } from "react-router-dom";
-
-  const HomePage = () => {
-    const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-    const [totalPages, setTotalPages] = useState(0);
-    const [searchParams] = useSearchParams();
-    const currentPage = parseInt(searchParams.get("page") || "1", 10);
-    
-=======
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -43,7 +31,6 @@ const HomePage = () => {
     steel: "#B7B7CE",
     fairy: "#D685AD",
   };
->>>>>>> 41ce1ff90106ab4cb63ab59d58c6ec4bdce6560d
 
   
     const fetchData = async (page: number) => {
@@ -66,7 +53,6 @@ const HomePage = () => {
           })
         );
 
-<<<<<<< HEAD
         setPokemonList(detailedData);
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
@@ -80,35 +66,33 @@ const HomePage = () => {
 
 
     return (
-=======
-  const fetchData = async (page: number) => {
-    const limit = 20;
-    const offset = (page - 1) * limit;
-    try {
-      const results = response.data.results;
-      const detailedData = await Promise.all(
-        results.map(async (pokemon: { url: string }) => {
-          const res = await axios.get(pokemon.url);
-          return {
-            id: res.data.id,
-            name: res.data.name[0].toUpperCase() + res.data.name.slice(1),
-            types: res.data.types.map((t: string[]) => t.type.name),
-            sprites: res.data.sprites.other["official-artwork"].front_default,
-          };
-        })
-      );
-      setPokemonList(detailedData);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des données :", error);
-    }
-  };
+    const fetchData = async (page: number) => {
+      const limit = 20;
+      const offset = (page - 1) * limit;
+      try {
+        const results = response.data.results;
+        const detailedData = await Promise.all(
+          results.map(async (pokemon: { url: string }) => {
+            const res = await axios.get(pokemon.url);
+            return {
+              id: res.data.id,
+              name: res.data.name[0].toUpperCase() + res.data.name.slice(1),
+              types: res.data.types.map((t: string[]) => t.type.name),
+              sprites: res.data.sprites.other["official-artwork"].front_default,
+            };
+          })
+        );
+        setPokemonList(detailedData);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
   useEffect(() => {
     fetchData(5);
   }, []);
 
   return (
     <>
->>>>>>> 41ce1ff90106ab4cb63ab59d58c6ec4bdce6560d
       <div className="bg-white flex flex-col items-center">
         <BannerIntro />
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2.5">
@@ -116,12 +100,7 @@ const HomePage = () => {
             <PokemonCard pokemon={pokemon} key={index} />
           ))}
         </div>
-<<<<<<< HEAD
-        {}
         <Pagination totalPages={totalPages} />
-=======
-        <Pagination />
->>>>>>> 41ce1ff90106ab4cb63ab59d58c6ec4bdce6560d
       </div>
     );
   };
