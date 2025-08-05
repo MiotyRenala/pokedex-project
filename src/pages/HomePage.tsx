@@ -7,6 +7,7 @@ import type { Pokemon } from "@/types/types";
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+  
   const [searchValue, setSearchValue] = useState("");
   const [sortFilter, setSortFilter] = useState("");
   

@@ -26,7 +26,8 @@ const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
       <FaSearch
         className={`w-5 h-5 mr-2 text-gray-500 transition-opacity ${
           isFocused ? 'opacity-100' : 'opacity-80'
-        }`}
+        }`
+        }
       />
       <input
         placeholder={isFocused ? '' : 'Quel Pokémon cherchez-vous?'}

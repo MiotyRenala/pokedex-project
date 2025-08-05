@@ -7,7 +7,6 @@ interface FilterDropdownProps {
 
 const FilterDropdown: React.FC<FilterDropdownProps> = ({ value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleSelect = (filter: string) => {
