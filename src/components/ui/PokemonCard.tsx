@@ -2,13 +2,14 @@ import type {Pokemon} from "@/types/types.ts";
 import PokemonBadgeType from "@/components/ui/PokemonBadgeType.tsx";
 
 const typeColor: { [key: string]: string } = {
-  fire: "#F08030",
-  water: "#6890F0",
-  grass: "#78C850",
-  electric: "#F8D030",
-  bug: "#A8B820",
-  normal: "#A8A878",
+  fire: "#f35050",
+  water: "#3b82f6",
+  grass: "#11b34e",
+  electric: "#eab308",
+  bug: "#50df83",
+  normal: "#7e838a",
 };
+
 
 export const PokemonCard = ({pokemon}: { pokemon: Pokemon }) => {
   const formatId = (id: number) => {
@@ -24,7 +25,7 @@ export const PokemonCard = ({pokemon}: { pokemon: Pokemon }) => {
         style={{backgroundColor: typeColor[pokemon.types[0]] || "#888"}}
       >
         <div className="flex flex-col items-center p-3">
-          <p className="text-xs self-end bg-black bg-opacity-20 px-2 rounded-2xl">
+          <p className="text-xs self-end bg-black text-white py-2 px-3 flex items-center font-semibold bg-opacity-20 rounded-2xl">
             {formatId(pokemon.id)}
           </p>
 

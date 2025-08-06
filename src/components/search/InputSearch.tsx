@@ -19,9 +19,9 @@ const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
 
   return (
     <div
-      className={`w-full max-w-md mx-auto flex items-center h-[60px] px-5 my-2.5 mb-[50px] rounded-[10px] border-2 ${
+      className={`w-full max-w- mx-auto flex shadow items-center h-[60px] px-5 rounded-xl border-2 ${
         isFocused ? 'border-blue-100' : 'border-transparent'
-      } bg-gray-100`}
+      } bg-gray-50`}
     >
       <FaSearch
         className={`w-5 h-5 mr-2 text-gray-500 transition-opacity ${
@@ -34,7 +34,7 @@ const InputSearch: React.FC<InputSearchProps> = ({ value, onChange }) => {
         onChange={e => onChange(e.target.value)}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        className="flex-1 text-center text-[18px] text-gray-500 bg-transparent border-none outline-none placeholder:text-center placeholder:text-gray-400 sm:text-[16px]"
+        className="flex-1 text-2xl text-gray-500 bg-transparent border-none outline-none placeholder:text-gray-400 sm:text-[16px]"
       />
     </div>
   );

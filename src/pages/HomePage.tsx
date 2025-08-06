@@ -61,14 +61,14 @@ const HomePage = () => {
     <div className="bg-white flex flex-col items-center">
       <BannerIntro/>
 
-      <div className="flex justify-center gap-2 w-[50vw] h-[20vh]">
-        <InputSearch value={searchValue} onChange={setSearchValue}/>
-        <FilterDropdown value={sortFilter} onChange={setSortFilter}/>
-      </div>
+      <div className="w-full max-w-6xl">
+        <div className="flex justify-center w-full gap-2 mb-4">
+          <InputSearch value={searchValue} onChange={setSearchValue}/>
+          <FilterDropdown value={sortFilter} onChange={setSortFilter}/>
+        </div>
 
-      <div className="w-full max-w-6xl mt-4">
         {filteredPokemon.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredPokemon.map((pokemon, index) => (
               <PokemonCard pokemon={pokemon} key={index}/>
             ))}
