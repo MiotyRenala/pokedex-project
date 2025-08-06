@@ -5,35 +5,26 @@ import type {Pokemon} from "@/types/types";
 import Pagination from "@/components/templates/Pagination.tsx";
 import {PokemonCard} from "@/components/ui/PokemonCard.tsx";
 import {useSearchParams} from "react-router-dom";
+import InputSearch from "@/components/search/InputSearch.tsx";
+import FilterDropdown from "@/components/search/FilterDropdown.tsx";
 
 const HomePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [sortFilter, setSortFilter] = useState("");
   const [totalPages, setTotalPages] = useState(0);
-  const [ searchParams ] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
-  const typeColor: { [key: string]: string } = {
-    normal: "#A8A77A",
-    fire: "#EE8130",
-    water: "#6390F0",
-    electric: "#F7D02C",
-    grass: "#7AC74C",
-    ice: "#96D9D6",
-    fighting: "#C22E28",
-    poison: "#A33EA1",
-    ground: "#E2BF65",
-    flying: "#A98FF3",
-    psychic: "#F95587",
-    bug: "#A6B91A",
-    rock: "#B6A136",
-    ghost: "#735797",
-    dragon: "#6F35FC",
-    dark: "#705746",
-    steel: "#B7B7CE",
-    fairy: "#D685AD",
-  };
+  const filteredPokemon = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(searchValue.toLowerCase()));
+
+  filteredPokemon.sort((a, b) =>
+    sortFilter === "A-Z"
+      ? a.name.localeCompare(b.name)
+      : sortFilter === "Z-A"
+        ? b.name.localeCompare(a.name)
+        : a.id - b.id
+  );
 
 
   const fetchData = async (page: number) => {
@@ -67,17 +58,34 @@ const HomePage = () => {
   }, [currentPage]);
 
   return (
-    <>
-      <div className="bg-white flex flex-col items-center">
-        <BannerIntro/>
-        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2.5">
-          {pokemonList.map((pokemon, index) => (
-            <PokemonCard pokemon={pokemon} key={index}/>
-          ))}
-        </div>
+    <div className="bg-white flex flex-col items-center">
+      <BannerIntro/>
+
+      <div className="flex justify-center gap-2 w-[50vw] h-[20vh]">
+        <InputSearch value={searchValue} onChange={setSearchValue}/>
+        <FilterDropdown value={sortFilter} onChange={setSortFilter}/>
+      </div>
+
+      <div className="w-full max-w-6xl mt-4">
+        {filteredPokemon.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {filteredPokemon.map((pokemon, index) => (
+              <PokemonCard pokemon={pokemon} key={index}/>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-gray-500 py-10 text-lg">
+            Aucun Pokémon trouvé avec le nom {searchValue}.
+          </div>
+        )}
+      </div>
+
+
+      <div className="mt-6">
         <Pagination totalPages={totalPages}/>
       </div>
-    </>
+    </div>
+
   )
 }
 
